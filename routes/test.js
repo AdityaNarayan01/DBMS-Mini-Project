@@ -25,7 +25,7 @@ router.post('/assignTest', teacherauthenticate, [
     check('isduration').not().isEmpty().withMessage({success: false, message: 'isduration is Required'}),
     check('duration').not().isEmpty().withMessage({success: false, message: 'duration is Required'}), //not reuired
     check('startDate').not().isEmpty().withMessage({success: false, message: 'startDate is Required'}),
-    check('startDate').not().isEmpty().withMessage({success: false, message: 'startDate is Required'}),
+    check('endDate').not().isEmpty().withMessage({success: false, message: 'endDate is Required'}),
     check('isBranchSpecific').not().isEmpty().withMessage({success: false, message: 'isBranchSpecific is Required'}),
     check('branch').not().isEmpty().withMessage({success: false, message: 'branch is Required'}), //not reuiqred
     check('section').not().isEmpty().withMessage({success: false, message: 'section is Required'}),
