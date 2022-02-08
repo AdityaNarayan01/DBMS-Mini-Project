@@ -24,7 +24,7 @@ const teacherSchema = new Schema({
         required: 'Branch is Required',
     },
     sections:[{
-        type: String
+        type: Number
     }],
     testAssigned:[{ 
         type: Schema.Types.ObjectId,
@@ -46,5 +46,9 @@ teacherSchema.methods.generateJWT = function(){
         expiresIn: parseInt(expirationDate.getTime() / 1000, 10)
     });
 };
+
+teacherSchema.methods.compareOtp = function (password){
+    return bcrypt.compareSync(password, this.password);
+}
 
 module.exports = mongoose.model('teacher', teacherSchema);

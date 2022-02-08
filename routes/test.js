@@ -3,9 +3,9 @@ const {check} = require('express-validator');
 
 const router = express.Router();
 const validate = require('../middlewares/validator');
-const test= require('../controllers/test');
-const teacherauthenticate = require('../middlewares/teacherauthenticate');
-const studentauthenticate = require('../middlewares/studentauthenticate');
+const test= require('../controller/test');
+const teacherauthenticate = require('../middlewares/teacherAuth');
+const studentauthenticate = require('../middlewares/studentAuth');
 
 //Student test
 

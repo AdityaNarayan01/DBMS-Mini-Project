@@ -24,7 +24,7 @@ const studentSchema = new Schema({
         required: 'Branch is Required',
     },
     section:{
-        type: String,
+        type: Number,
         required: 'Section is Required',
     },
     testSubmitted:[{ 
@@ -47,5 +47,10 @@ studentSchema.methods.generateJWT = function(){
         expiresIn: parseInt(expirationDate.getTime() / 1000, 10)
     });
 };
+
+studentSchema.methods.compareOtp = function (password){
+    return bcrypt.compareSync(password, this.password);
+ }
+
 
 module.exports = mongoose.model('student', studentSchema);

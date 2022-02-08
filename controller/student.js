@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 exports.signup = async(req, res) => {
     try {
-        const {name, email, password, branch, section} =  req.body;
+        var {name, email, password, branch, section} =  req.body;
         const ifStudent = await Student.findOne({email});
 
         if(ifStudent)
@@ -15,17 +15,17 @@ exports.signup = async(req, res) => {
         
         const student = await newStudent.save();
 
-        res.status(200).json({success: true, student, token:user.generateJWT()});
+        res.status(200).json({success: true, student, token:student.generateJWT()});
 
     } catch (error) {
-        res.status(500).json({success: false, message: 'Server Error'})
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message});
     }
 }
 
 exports.login = async(req, res) => {
     try {
         const { email, password} =  req.body;
-        const student = await User.findOne({ email });
+        const student = await Student.findOne({ email });
 
         if (!student)
             return res.status(200).send({ success: false, message: 'Student Not Found'});
@@ -33,9 +33,9 @@ exports.login = async(req, res) => {
         if (!student.compareOtp(password))
             return res.status(200).send({ success: false, message: 'Invalid Password' });
 
-        res.status(200).json({success: true, student, token:user.generateJWT()});
+        res.status(200).json({success: true, student, token:student.generateJWT()});
     } catch (error) {
-        res.status(500).json({success: false, message: 'Server Error'})
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message})
     }
 }
 
