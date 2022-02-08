@@ -45,10 +45,10 @@ const QuestionSchema = new Schema({
 
 
 const testSchema = new Schema({
-    teacherAssigned:[{
+    teacherAssigned:{
         type: Schema.Types.ObjectId,
         ref: 'teacher'
-    }],
+    },
     isduration:{
         type: Boolean,
         default: false
