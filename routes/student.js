@@ -3,8 +3,8 @@ const {check} = require('express-validator');
 
 const router = express.Router();
 const validate = require('../middlewares/validator');
-const student = require('../controllers/student');
-const authenticate = require('../middlewares/studentauthenticate');
+const student = require('../controller/student');
+const authenticate = require('../middlewares/studentAuth');
 
 router.post('/studentsignup',[
     check('name').not().isEmpty().withMessage({success: false, message: 'name is Required'}),

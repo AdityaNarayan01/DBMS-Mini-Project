@@ -70,7 +70,7 @@ const testSchema = new Schema({
         type: String
     },
     section:{
-        type: String
+        type: Number
     },
     question: {
         type: QuestionSchema

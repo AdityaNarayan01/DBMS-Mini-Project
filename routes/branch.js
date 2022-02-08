@@ -3,7 +3,7 @@ const {check} = require('express-validator');
 
 const router = express.Router();
 const validate = require('../middlewares/validator');
-const Branch = require('../controllers/branch');
+const Branch = require('../controller/branch');
 
 
 router.post('/branch',[
