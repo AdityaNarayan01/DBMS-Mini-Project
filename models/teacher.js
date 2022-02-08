@@ -15,9 +15,6 @@ const teacherSchema = new Schema({
         unique: true,
         required: 'Email is Required',
     },
-    otp:{
-        type: String
-    },
     password:{
         type: String,
         required: 'Password is Required',
