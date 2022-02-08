@@ -14,7 +14,7 @@ exports.addBranch = async(req, res) => {
         const branch = await newBranch.save();
 
         res.status(200).json({success: true, branch});
-
+        
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error'})
     }
