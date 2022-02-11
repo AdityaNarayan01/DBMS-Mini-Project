@@ -72,9 +72,9 @@ const testSchema = new Schema({
     section:{
         type: Number
     },
-    question: {
+    question: [{
         type: QuestionSchema
-    },
+    }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('test', testSchema);
