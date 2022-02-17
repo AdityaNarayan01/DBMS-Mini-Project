@@ -15,6 +15,13 @@ const studentSchema = new Schema({
         unique: true,
         required: 'Email is Required',
     },
+    otp:{
+        type: String,
+    },
+    isVerified:{
+        type: Boolean,
+        default: false
+    },
     password:{
         type: String,
         required: 'Password is Required',
@@ -48,9 +55,13 @@ studentSchema.methods.generateJWT = function(){
     });
 };
 
-studentSchema.methods.compareOtp = function (password){
+studentSchema.methods.comparePassword = function (password){
     return bcrypt.compareSync(password, this.password);
- }
+}
+
+studentSchema.methods.compareOTP = function (otp){
+    return bcrypt.compareSync(otp, this.otp);
+}
 
 
 module.exports = mongoose.model('student', studentSchema);
