@@ -8,7 +8,7 @@ const Branch = require('../controller/branch');
 
 router.post('/branch',[
     check('branchName').not().isEmpty().withMessage({success: false, message: 'branchName is Required'}),
-    check('totalSections').not().isEmpty().withMessage({success: false, message: 'totalSections is Required'})
+    check('sections').not().isEmpty().withMessage({success: false, message: 'sections is Required'})
 ], validate, Branch.addBranch);
 
 router.get('/branch', Branch.getBranch);

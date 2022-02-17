@@ -31,7 +31,7 @@ const studentSchema = new Schema({
         required: 'Branch is Required',
     },
     section:{
-        type: Number,
+        type: String,
         required: 'Section is Required',
     },
     testSubmitted:[{ 

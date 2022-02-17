@@ -31,7 +31,7 @@ const teacherSchema = new Schema({
         required: 'Branch is Required',
     },
     sections:[{
-        type: Number
+        type: String
     }],
     testAssigned:[{ 
         type: Schema.Types.ObjectId,
