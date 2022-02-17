@@ -1,65 +1,32 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
-const jwt = require('jsonwebtoken');
-
 require('dotenv').config();
 
-const mcqSchema = new Schema({
-    mcqTitle:{
-        type: String,
-        required: 'mcqtitle is Required'
+
+const testSubmittedSchema = new Schema({
+    testId:{
+        type: Schema.Types.ObjectId,
+        ref: 'test'
     },
-    answer:{
-        type: Boolean,
-        default: false
-    },
-    mcqtype:{
-        type: Boolean,
-        deafult: false  // if false then one and if true the multiple
+    StudentId:{
+        type: Schema.Types.ObjectId,
+        ref: 'student'
     },
     marks:{
         type: Number
-    }
-});
-
-const QuestionSchema = new Schema({
-    title:{
-        type: String,
-        required: 'title is Required'
     },
-    questionType:{
-        type: String,
-        default: 'mcq'
+    submitTime:{
+        type: Number
     },
-    totalMcq:{
-        type: Number,
-        required: 'required TotalMCQ'
+    endTime:{
+        type: Number
     },
-    mcqQuestions:[{
-        type: mcqSchema,
-    }],
     totalMarks:{
         type: Number
-    }
-});
-
-const testSubmittedSchema = new Schema({
-        testId:{
-            type: Schema.Types.ObjectId,
-            ref: 'test'
-        },
-        studentId:{
-            type: Schema.Types.ObjectId,
-            ref: 'student'
-        },
-        QuestionSubmiited:{
-            type: QuestionSchema
-        },
-        marks:{
-            type: Number,
-        }
-});
+    },
+    answer:[{type: Number}]
+}, { timestamps: true });
 
 
-module.exports = mongoose.model('testSubmitted', testSubmittedSchema);
+
+module.exports = mongoose.model('testSubmit', testSubmittedSchema);
