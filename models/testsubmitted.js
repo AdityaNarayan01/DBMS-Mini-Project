@@ -24,7 +24,7 @@ const testSubmittedSchema = new Schema({
     totalMarks:{
         type: Number
     },
-    answer:[{type: Number}]
+    answer:[[{type: Number}]]
 }, { timestamps: true });
 
 

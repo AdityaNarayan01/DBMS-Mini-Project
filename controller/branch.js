@@ -8,7 +8,7 @@ exports.addBranch = async(req, res) => {
         const ifbranch = await Branch.findOne({branchName});
 
         if(ifbranch)
-            res.status(200).json({success: false, message: 'Branch is Already Exists'});
+            return res.status(200).json({success: false, message: 'Branch is Already Exists'});
 
         const newBranch = new Branch({branchName, sections});
         const branch = await newBranch.save();

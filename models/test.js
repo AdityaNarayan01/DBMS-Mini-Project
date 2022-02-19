@@ -49,13 +49,21 @@ const testSchema = new Schema({
         type: String
     },
     section:{
-        type: String
+        type: String,
+        default: "null"
     },
     isBranch:{
         type: Boolean,
         default: false
     },
-    totalMark:{
+    totalMarks:{
+        type: Number
+    },
+    isDuration:{
+        type: Boolean,
+        default: false
+    },
+    duration:{
         type: Number
     },
     questions:[{
