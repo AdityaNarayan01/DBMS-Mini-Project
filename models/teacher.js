@@ -15,9 +15,6 @@ const teacherSchema = new Schema({
         unique: true,
         required: 'Email is Required',
     },
-    otp:{
-        type: String,
-    },
     isVerified:{
         type: Boolean,
         default: false,
@@ -31,7 +28,7 @@ const teacherSchema = new Schema({
         required: 'Branch is Required',
     },
     sections:[{
-        type: Number
+        type: String
     }],
     testAssigned:[{ 
         type: Schema.Types.ObjectId,
@@ -47,6 +44,7 @@ teacherSchema.methods.generateJWT = function(){
 
     let payload = {
         id: this._id,
+        type: 'teacher'
     };
 
     return jwt.sign(payload, process.env.JWT_SECRET, {

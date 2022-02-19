@@ -8,7 +8,7 @@ const branchSchema = new Schema({
         type: String,
         required: 'mcqtitle is Required'
     },
-    totalSections:[{
+    sections:[{
         type: String,
         default: 0
     }]

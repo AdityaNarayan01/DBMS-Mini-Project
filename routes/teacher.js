@@ -4,17 +4,20 @@ const {check} = require('express-validator');
 const router = express.Router();
 const validate = require('../middlewares/validator');
 const teacher= require('../controller/teacher');
-const authenticate = require('../middlewares/teacherAuth');
+const authenticate = require('../middlewares/authenticate');
 
-router.post('/teachersignup',[
-    check('name').not().isEmpty().withMessage({success: false, message: 'name is Required'}),
+router.post('/teacherRegister',[
+    check('firstName').not().isEmpty().withMessage({success: false, message: 'firstName is Required'}),
+    check('lastName').not().isEmpty().withMessage({success: false, message: 'lastName is Required'}),
     check('email').not().isEmpty().withMessage({success: false, message: 'email is Required'}),
     check('password').not().isEmpty().withMessage({success: false, message: 'password is Required'}),
     check('branch').not().isEmpty().withMessage({success: false, message: 'branch is Required'}),
     check('sections').not().isEmpty().withMessage({success: false, message: 'sections is Required'}),
-], validate, teacher.signup);
+], validate, teacher.register);
 
-
+router.post('/teacherVerify/:id',[
+    check('id').not().isEmpty().withMessage({success: false, message: 'verifyId is Required'}),
+], validate, teacher.verify);
 
 router.post('/teacherlogin',[
     check('email').not().isEmpty().withMessage({success: false, message: 'email is Required'}),
@@ -22,5 +25,7 @@ router.post('/teacherlogin',[
 ], validate, teacher.login);
 
 router.get('/teacherProfile', authenticate, teacher.profile);
+
+router.get('/teacherTestDetails', authenticate, teacher.testDetails);
 
 module.exports = router;

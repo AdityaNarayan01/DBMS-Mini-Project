@@ -4,69 +4,62 @@ const {check} = require('express-validator');
 const router = express.Router();
 const validate = require('../middlewares/validator');
 const test= require('../controller/test');
-const teacherauthenticate = require('../middlewares/teacherAuth');
-const studentauthenticate = require('../middlewares/studentAuth');
+const authenticate = require('../middlewares/authenticate');
+
 
 //Student test
-
-router.post('/submittest', studentauthenticate, [
+router.post('/studentTestSubmit', authenticate, [
     check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
-    //More will required
-], validate, test.submittest);
+    check('submitTime').not().isEmpty().withMessage({success: false, message: 'submitTime is Required'}),
+    check('endTime').not().isEmpty().withMessage({success: false, message: 'endTime is Required'}),
+    check('totalMarks').not().isEmpty().withMessage({success: false, message: 'totalMarks is Required'}),
+    check('answer').not().isEmpty().withMessage({success: false, message: 'answer is Required'}),
+], validate, test.studentTestSubmit);
 
-router.get('/testmarks', studentauthenticate, [
-    check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
-], validate, test.testmarks);
+// router.post('/submittest', authenticate, [
+//     check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
+//     //More will required
+// ], validate, test.submittest);
+
+// router.get('/testmarks', authenticate, [
+//     check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
+// ], validate, test.testmarks);
 
 
 //teacher test
 
-router.post('/assignTest', teacherauthenticate, [
-    check('isduration').not().isEmpty().withMessage({success: false, message: 'isduration is Required'}),
-    check('duration').not().isEmpty().withMessage({success: false, message: 'duration is Required'}), //not reuired
-    check('startDate').not().isEmpty().withMessage({success: false, message: 'startDate is Required'}),
-    check('endDate').not().isEmpty().withMessage({success: false, message: 'endDate is Required'}),
-    check('isBranchSpecific').not().isEmpty().withMessage({success: false, message: 'isBranchSpecific is Required'}),
-    check('branch').not().isEmpty().withMessage({success: false, message: 'branch is Required'}), //not reuiqred
-    check('section').not().isEmpty().withMessage({success: false, message: 'section is Required'}),
-    check('question.title').not().isEmpty().withMessage({success: false, message: 'Question title is Required'}),
-    check('question.questionType').not().isEmpty().withMessage({success: false, message: 'questionType is Required'}), //not required
-    check('question.totalMcq').not().isEmpty().withMessage({success: false, message: 'totalMcq is Required'}),
-    check('question.mcqQuestions').not().isEmpty().withMessage({success: false, message: 'mcqQuestions is Required'}),
-    check('question.totalMarks').not().isEmpty().withMessage({success: false, message: 'totalMarksis Required'}),
-    check('question.mcqQuestions.*.mcqTitle').not().isEmpty().withMessage({success: false, message: 'mcqTitle is required'}),
-    check('question.mcqQuestions.*.answer').not().isEmpty().withMessage({success: false, message: 'answer is required'}),
-    check('question.mcqQuestions.*.mcqtype').not().isEmpty().withMessage({success: false, message: 'mcqtype is required'}),
-    check('question.mcqQuestions.*.marks').not().isEmpty().withMessage({success: false, message: 'marks is required'}),
-], validate, test.assignTest);
+router.post('/addTest', authenticate, [
+    check('title').not().isEmpty().withMessage({success: false, message: 'title is Required'}),
+    check('startTime').not().isEmpty().withMessage({success: false, message: 'startTime is Required'}), 
+    check('endTime').not().isEmpty().withMessage({success: false, message: 'endTime is Required'}),
+    check('isBranch').not().isEmpty().withMessage({success: false, message: 'isBranch is Required'}),
+    check('totalMarks').not().isEmpty().withMessage({success: false, message: 'totalMarks is Required'}),
+    check('isDuration').not().isEmpty().withMessage({success: false, message: 'isDuration is Required'}),
+    check('questions.*.questionTitle').not().isEmpty().withMessage({success: false, message: 'Question title is Required'}),
+    check('questions.*.mcqType').not().isEmpty().withMessage({success: false, message: 'questionType is Required'}), 
+    check('questions.*.questionMarks').not().isEmpty().withMessage({success: false, message: 'mcqQuestions is Required'}),
+    check('questions.*.options.*.option').not().isEmpty().withMessage({success: false, message: 'mcqTitle is required'}),
+    check('questions.*.options.*.status').not().isEmpty().withMessage({success: false, message: 'answer is required'}),
+], validate, test.addTest);
 
-router.post('updatetest', teacherauthenticate, [
+router.put('/updateTest', authenticate, [
     check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
-    check('isduration').not().isEmpty().withMessage({success: false, message: 'isduration is Required'}),
-    check('duration').not().isEmpty().withMessage({success: false, message: 'duration is Required'}), //not reuired
-    check('startDate').not().isEmpty().withMessage({success: false, message: 'startDate is Required'}),
-    check('startDate').not().isEmpty().withMessage({success: false, message: 'startDate is Required'}),
-    check('isBranchSpecific').not().isEmpty().withMessage({success: false, message: 'isBranchSpecific is Required'}),
-    check('branch').not().isEmpty().withMessage({success: false, message: 'branch is Required'}), //not reuiqred
-    check('section').not().isEmpty().withMessage({success: false, message: 'section is Required'}),
-    check('question.title').not().isEmpty().withMessage({success: false, message: 'Question title is Required'}),
-    check('question.questionType').not().isEmpty().withMessage({success: false, message: 'questionType is Required'}), //not required
-    check('question.totalMcq').not().isEmpty().withMessage({success: false, message: 'totalMcq is Required'}),
-    check('question.mcqQuestions').not().isEmpty().withMessage({success: false, message: 'mcqQuestions is Required'}),
-    check('question.totalMarks').not().isEmpty().withMessage({success: false, message: 'totalMarksis Required'}),
-    check('question.mcqQuestions.*.mcqTitle').not().isEmpty().withMessage({success: false, message: 'mcqTitle is required'}),
-    check('question.mcqQuestions.*.answer').not().isEmpty().withMessage({success: false, message: 'answer is required'}),
-    check('question.mcqQuestions.*.mcqtype').not().isEmpty().withMessage({success: false, message: 'mcqtype is required'}),
-    check('question.mcqQuestions.*.marks').not().isEmpty().withMessage({success: false, message: 'marks is required'}),
-], validate, test.updatetest);
+    check('title').not().isEmpty().withMessage({success: false, message: 'title is Required'}),
+    check('startTime').not().isEmpty().withMessage({success: false, message: 'startTime is Required'}), //not reuired
+    check('endTime').not().isEmpty().withMessage({success: false, message: 'endTime is Required'}),
+    check('isBranch').not().isEmpty().withMessage({success: false, message: 'isBranch is Required'}),
+    check('totalMarks').not().isEmpty().withMessage({success: false, message: 'totalMarks is Required'}),
+    check('isDuration').not().isEmpty().withMessage({success: false, message: 'isDuration is Required'}),
+    check('questions.*.questionTitle').not().isEmpty().withMessage({success: false, message: 'Question title is Required'}),
+    check('questions.*.mcqType').not().isEmpty().withMessage({success: false, message: 'questionType is Required'}), //not required
+    check('questions.*.questionMarks').not().isEmpty().withMessage({success: false, message: 'mcqQuestions is Required'}),
+    check('questions.*.options.*.option').not().isEmpty().withMessage({success: false, message: 'mcqTitle is required'}),
+    check('questions.*.options.*.status').not().isEmpty().withMessage({success: false, message: 'answer is required'}),
+], validate, test.updateTest);
 
-router.post('deletetest', teacherauthenticate, [
-    check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
-], validate, test.deletetest);
-
-router.get('testResult', teacherauthenticate, [
-    check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
-], validate, test.testResult);
+router.delete('/deleteTest/:id', authenticate, [
+    check('id').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
+], validate, test.deleteTest);
 
 
 module.exports = router;

@@ -3,14 +3,14 @@ const Branch = require('../models/branch');
 
 exports.addBranch = async(req, res) => {
     try {
-        const {branchName, totalSections} =  req.body;
+        const {branchName, sections} =  req.body;
 
         const ifbranch = await Branch.findOne({branchName});
 
         if(ifbranch)
-            res.status(200).json({success: false, message: 'Branch is Already Exists'});
+            return res.status(200).json({success: false, message: 'Branch is Already Exists'});
 
-        const newBranch = new Branch({branchName, totalSections});
+        const newBranch = new Branch({branchName, sections});
         const branch = await newBranch.save();
 
         res.status(200).json({success: true, branch});

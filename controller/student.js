@@ -1,24 +1,62 @@
 const Student = require('../models/student');
 const bcrypt = require('bcrypt');
+const { sendemail } = require('../utils/sendlink');
+const Test = require('../models/Test');
+const testsubmitted = require('../models/testsubmitted');
+require('dotenv').config();
 
-exports.signup = async(req, res) => {
+
+exports.register = async(req, res) => {
     try {
-        var {name, email, password, branch, section} =  req.body;
+        var {firstName, lastName , email, password, branch, section} =  req.body;
         const ifStudent = await Student.findOne({email});
 
-        if(ifStudent)
-            res.status(200).json({success: false, message: 'Student Already Exists'});
+        if(ifStudent && ifStudent.isverified==true)
+                return res.status(200).json({success: false, message: 'Student Already Exists'});
 
         password = await bcrypt.hashSync(password , 10);
-
-        const newStudent = new Student({name, email, password, branch, section});
         
-        const student = await newStudent.save();
+        var student;
 
-        res.status(200).json({success: true, student, token:student.generateJWT()});
+        const name = firstName + " " + lastName;
 
+        if(ifStudent){
+            ifStudent.name = name;
+            ifStudent.password = password;
+            ifStudent.branch = branch;
+            ifStudent.section = section;
+
+            student = await ifStudent.save();
+        }else{
+            const newStudent = new Student({name, email, password, branch, section});
+            student = await newStudent.save();
+        }
+
+
+        const link = `${process.env.frontendLink}/studentVerify/${student.id}`
+        await sendemail(email, link);
+
+        res.status(200).json({success: true});
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error', messages: error.message});
+    }
+}
+
+
+exports.verify = async(req, res) => {
+    try {
+        const id = req.params.id;
+
+        const student = await Student.findById(id);
+
+        if(!student)
+            return res.status(200).json({success: false, message: 'Student not found'});
+
+        student.isVerified = true;
+        await student.save();
+        res.status(200).json({success: true});
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message})
     }
 }
 
@@ -30,7 +68,10 @@ exports.login = async(req, res) => {
         if (!student)
             return res.status(200).send({ success: false, message: 'Student Not Found'});
 
-        if (!student.compareOtp(password))
+        if(student.isVerified == false)
+            return res.status(200).send({ success: false, message: 'Student Not Found'});
+
+        if (!student.comparePassword(password))
             return res.status(200).send({ success: false, message: 'Invalid Password' });
 
         res.status(200).json({success: true, student, token:student.generateJWT()});
@@ -42,9 +83,60 @@ exports.login = async(req, res) => {
 
 exports.profile = async(req, res) => {
     try {
-        
+        res.status(200).send({ success: true , student: req.student});
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error'})
     }
 }
 
+
+exports.studentTestDetails  = async(req, res) => {
+    try {
+        const student = req.student;
+
+        if(!student)
+            return res.status(401).json({success: false, message:'UnAuthozied Accesss'});
+
+            var date = new Date();
+            var nowTimeStamp = date.getTime()/1000;
+
+            date.setHours(0,0,0,0);
+
+            var todayTimeStamp = date.getTime()/1000;
+
+            var tomorrow = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+            var tomorrowTimeStamp = tomorrow.getTime()/1000;
+
+            const ongoingTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').lt(nowTimeStamp).where('endTime').gt(nowTimeStamp).exec();
+            const todayTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').gt(nowTimeStamp).lt(tomorrowTimeStamp).exec();
+            const upcomingTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').gt(tomorrowTimeStamp).exec();
+            const historyTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('endTime').lt(nowTimeStamp).exec();
+            const testGiven = await testsubmitted.find({studentId: student.id});
+
+            res.status(200).json({success: true, ongoingTest, todayTest, upcomingTest, historyTest, testGiven });
+        
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message});
+    }
+}
+
+
+exports.studentResult = async(req,res) => {
+    try {
+        const student = req.student;
+
+        if(!student)
+            return res.status(401).json({success: false, message:'UnAuthozied Accesss'});
+
+        const testsubmitId = req.params.id;
+
+        const testsubmit = await testsubmitted.findById(testsubmitId).populate('testId').exec();
+
+        if(!testsubmit)
+            return res.status(400).json({success: false, message:'Test Not Found'});
+
+        res.status(200).json({success: true, testsubmit});
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message});
+    }
+}

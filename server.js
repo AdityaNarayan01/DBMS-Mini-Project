@@ -40,8 +40,8 @@ connection.on('error', (err) => {
 
 //Middleware
 app.use(passport.initialize());
-require("./middlewares/studentJwt")(passport);
-require("./middlewares/teacherJwt")(passport);
+require("./middlewares/jwt")(passport);
+
 
 
 //configureRoute
