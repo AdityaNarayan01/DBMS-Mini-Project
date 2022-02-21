@@ -39,8 +39,8 @@ connection.on('error', (err) => {
 });
 
 // //Middleware
-// app.use(passport.initialize());
-// require("./middlewares/jwt")(passport);
+app.use(passport.initialize());
+require("./middlewares/jwt")(passport);
 
 
 
