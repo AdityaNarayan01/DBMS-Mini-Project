@@ -1,4 +1,4 @@
-const Test = require("../models/Test");
+const Test = require("../models/test");
 const TestSubmit = require('../models/testsubmitted');
 
 exports.addTest = async(req, res) => {
