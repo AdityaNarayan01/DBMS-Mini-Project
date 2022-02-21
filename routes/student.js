@@ -4,7 +4,7 @@ const {check} = require('express-validator');
 const router = express.Router();
 const validate = require('../middlewares/validator');
 // const student = require('../controller/student');
-// const authenticate = require('../middlewares/authenticate');
+const authenticate = require('../middlewares/authenticate');
 
 // router.post('/studentRegister',[
 //     check('firstName').not().isEmpty().withMessage({success: false, message: 'firstName is Required'}),
