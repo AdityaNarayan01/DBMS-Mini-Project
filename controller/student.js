@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { sendemail } = require('../utils/sendlink');
 // const Test = require('../models/Test');
 // const testsubmitted = require('../models/testsubmitted');
-// require('dotenv').config();
+require('dotenv').config();
 
 
 // exports.register = async(req, res) => {
