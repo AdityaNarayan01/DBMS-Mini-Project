@@ -27,16 +27,16 @@ app.use(express.json());
 // for parsing application/x www-
 app.use(express.urlencoded({ extended: false }));
 
-// mongoose.promise = global.Promise;
-// mongoose.connect(connUri, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-//    console.log('connected');
-// });
+mongoose.promise = global.Promise;
+mongoose.connect(connUri, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+   console.log('connected');
+});
 
-// const connection = mongoose.connection;
-// connection.on('error', (err) => {
-//    console.log(err);
-//    process.exit();
-// });
+const connection = mongoose.connection;
+connection.on('error', (err) => {
+   console.log(err);
+   process.exit();
+});
 
 // //Middleware
 // app.use(passport.initialize());
