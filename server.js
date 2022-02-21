@@ -45,6 +45,6 @@ require("./middlewares/jwt")(passport);
 
 
 // //configureRoute
-// require('./routes/index')(app);
+require('./routes/index')(app);
 
 app.listen(port, () => console.log(`port is running ${port}`));
