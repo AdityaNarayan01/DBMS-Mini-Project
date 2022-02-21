@@ -1,6 +1,6 @@
 const Student = require('../models/student');
 const bcrypt = require('bcrypt');
-const { sendemail } = require('../utils/sendlink');
+// const { sendemail } = require('../utils/sendlink');
 const Test = require('../models/Test');
 const testsubmitted = require('../models/testsubmitted');
 require('dotenv').config();
