@@ -15,21 +15,21 @@ router.post('/studentRegister',[
     check('section').not().isEmpty().withMessage({success: false, message: 'section is Required'}),
 ], validate, student.register);
 
-router.post('/studentVerify/:id',[
-    check('id').not().isEmpty().withMessage({success: false, message: 'verifyId is Required'}),
-], validate, student.verify);
+// router.post('/studentVerify/:id',[
+//     check('id').not().isEmpty().withMessage({success: false, message: 'verifyId is Required'}),
+// ], validate, student.verify);
 
 
-router.post('/studentlogin',[
-    check('email').not().isEmpty().withMessage({success: false, message: 'email is Required'}),
-    check('password').not().isEmpty().withMessage({success: false, message: 'password is Required'})
-], validate, student.login);
+// router.post('/studentlogin',[
+//     check('email').not().isEmpty().withMessage({success: false, message: 'email is Required'}),
+//     check('password').not().isEmpty().withMessage({success: false, message: 'password is Required'})
+// ], validate, student.login);
 
 
-router.get('/studentProfile', authenticate, student.profile);
+// router.get('/studentProfile', authenticate, student.profile);
 
-router.get('/studentTestDetails', authenticate, student.studentTestDetails);
+// router.get('/studentTestDetails', authenticate, student.studentTestDetails);
 
-router.get('/studentResult/:id', authenticate, student.studentResult);
+// router.get('/studentResult/:id', authenticate, student.studentResult);
 
 module.exports = router;
