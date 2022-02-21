@@ -2,33 +2,33 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 require('dotenv').config();
 
-const optionSchema = new Schema({
-    option:{
-        type: String,
-        required: 'mcqtitle is Required'
-    },
-    status:{
-        type: Boolean,
-        default: false
-    },
-});
+// const optionSchema = new Schema({
+//     option:{
+//         type: String,
+//         required: 'mcqtitle is Required'
+//     },
+//     status:{
+//         type: Boolean,
+//         default: false
+//     },
+// });
 
-const QuestionSchema = new Schema({
-    questionTitle:{
-        type: String,
-        required: 'title is Required'
-    },
-    mcqType:{
-        type: Boolean,
-        default: false
-    },
-    questionMarks:{
-        type: Number,
-    },
-    options:[{
-        type: optionSchema
-    }]
-});
+// const QuestionSchema = new Schema({
+//     questionTitle:{
+//         type: String,
+//         required: 'title is Required'
+//     },
+//     mcqType:{
+//         type: Boolean,
+//         default: false
+//     },
+//     questionMarks:{
+//         type: Number,
+//     },
+//     options:[{
+//         type: optionSchema
+//     }]
+// });
 
 
 const testSchema = new Schema({
@@ -66,9 +66,9 @@ const testSchema = new Schema({
     duration:{
         type: Number
     },
-    questions:[{
-        type: QuestionSchema
-    }]
+//     questions:[{
+//         type: QuestionSchema
+//     }]
 }, { timestamps: true });
 
 
