@@ -8,33 +8,33 @@ require('dotenv').config();
 
 exports.register = async(req, res) => {
     try {
-        var {firstName, lastName , email, password, branch, section} =  req.body;
-        const ifStudent = await Student.findOne({email});
+//         var {firstName, lastName , email, password, branch, section} =  req.body;
+//         const ifStudent = await Student.findOne({email});
 
-        if(ifStudent && ifStudent.isverified==true)
-                return res.status(200).json({success: false, message: 'Student Already Exists'});
+//         if(ifStudent && ifStudent.isverified==true)
+//                 return res.status(200).json({success: false, message: 'Student Already Exists'});
 
-        password = await bcrypt.hashSync(password , 10);
+//         password = await bcrypt.hashSync(password , 10);
         
-        var student;
+//         var student;
 
-        const name = firstName + " " + lastName;
+//         const name = firstName + " " + lastName;
 
-        if(ifStudent){
-            ifStudent.name = name;
-            ifStudent.password = password;
-            ifStudent.branch = branch;
-            ifStudent.section = section;
+//         if(ifStudent){
+//             ifStudent.name = name;
+//             ifStudent.password = password;
+//             ifStudent.branch = branch;
+//             ifStudent.section = section;
 
-            student = await ifStudent.save();
-        }else{
-            const newStudent = new Student({name, email, password, branch, section});
-            student = await newStudent.save();
-        }
+//             student = await ifStudent.save();
+//         }else{
+//             const newStudent = new Student({name, email, password, branch, section});
+//             student = await newStudent.save();
+//         }
 
 
-        const link = `${process.env.frontendLink}/studentVerify/${student.id}`
-        await sendemail(email, link);
+//         const link = `${process.env.frontendLink}/studentVerify/${student.id}`
+//         await sendemail(email, link);
 
         res.status(200).json({success: true});
     } catch (error) {
