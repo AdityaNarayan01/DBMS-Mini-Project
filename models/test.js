@@ -36,36 +36,36 @@ const testSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'teacher'
     },
-    title:{
-        type: String
-    },
-    startTime:{
-        type: Number
-    },
-    endTime:{
-        type: Number
-    },
-    branch:{
-        type: String
-    },
-    section:{
-        type: String,
-        default: "null"
-    },
-    isBranch:{
-        type: Boolean,
-        default: false
-    },
-    totalMarks:{
-        type: Number
-    },
-    isDuration:{
-        type: Boolean,
-        default: false
-    },
-    duration:{
-        type: Number
-    },
+//     title:{
+//         type: String
+//     },
+//     startTime:{
+//         type: Number
+//     },
+//     endTime:{
+//         type: Number
+//     },
+//     branch:{
+//         type: String
+//     },
+//     section:{
+//         type: String,
+//         default: "null"
+//     },
+//     isBranch:{
+//         type: Boolean,
+//         default: false
+//     },
+//     totalMarks:{
+//         type: Number
+//     },
+//     isDuration:{
+//         type: Boolean,
+//         default: false
+//     },
+//     duration:{
+//         type: Number
+//     },
 //     questions:[{
 //         type: QuestionSchema
 //     }]
