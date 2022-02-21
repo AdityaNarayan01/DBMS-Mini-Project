@@ -9,7 +9,7 @@ require('dotenv').config();
 
 //const variable define
 const port = process.env.PORT || 9001;
-// const connUri = process.env.MONGO_URL;
+const connUri = process.env.MONGO_URL;
 
 
 //starting of app
