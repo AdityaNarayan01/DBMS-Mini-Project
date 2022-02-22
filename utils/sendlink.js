@@ -7,12 +7,13 @@ exports.sendemail = async (email, link) => {
    try{
       const msg = {
          to: email,
-         from: 'yashresults11@gmail.com',
+         from: 'yogeshrdr11@gmail.com',
          subject: 'VERIFY TO LOGIN EXAMIFY',
          text: 'LINK TO VERIFY',
          html: `<strong>${link}</strong>`,
       }
-      await sgMail.send(msg);
+      const mail = await sgMail.send(msg);
+      console.log(mail);
       return true;
    }catch(error){
       return false;

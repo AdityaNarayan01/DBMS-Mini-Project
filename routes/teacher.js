@@ -24,6 +24,15 @@ router.post('/teacherlogin',[
     check('password').not().isEmpty().withMessage({success: false, message: 'password is Required'})
 ], validate, teacher.login);
 
+router.post('/teacherForgot', [
+    check('email').not().isEmpty().withMessage({success: false, message: 'email is Required'}),
+], validate, teacher.forgot);
+
+router.post('/teacherReset/:id',[
+    check('id').not().isEmpty().withMessage({success: false, message: 'resetId is Required'}),
+    check('password').not().isEmpty().withMessage({success: false, message: 'password is Required'})
+], validate, teacher.reset)
+
 router.get('/teacherProfile', authenticate, teacher.profile);
 
 router.get('/teacherTestDetails', authenticate, teacher.testDetails);

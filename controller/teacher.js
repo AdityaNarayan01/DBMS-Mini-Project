@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { sendemail } = require('../utils/sendlink');
 const Test = require('../models/test');
 const testsubmitted = require('../models/testsubmitted');
+const resetPassword = require('../models/resetpassword');
 require('dotenv').config();
 
 
@@ -75,6 +76,60 @@ exports.login = async(req, res) => {
             return res.status(200).send({ success: false, message: 'Invalid Password' });
 
         res.status(200).json({success: true, teacher, token:teacher.generateJWT()});
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message})
+    }
+}
+
+
+exports.forgot = async(req, res) => {
+    try {
+        const {email} =  req.body;
+        const student = await Teacher.findOne({ email });
+
+        if (!student)
+            return res.status(200).send({ success: false, message: 'Student Not Found'});
+        
+
+        const isreset = await resetPassword.findOne({email});
+
+        if(!isreset){
+            const newReset = new resetPassword({email, type: 'student'});
+            const reset = await newReset.save();
+            const link = `${process.env.frontendLink}/teacherReset/${reset.id}`
+            await sendemail(email, link);
+        }else{
+            const link = `${process.env.frontendLink}/teacherReset/${isreset.id}`
+            await sendemail(email, link);
+        }
+
+        return res.status(200).json({success: true});
+        
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message})
+    }
+}
+
+
+exports.reset = async(req, res) => {
+    try {
+        const id = req.params.id;
+        var {password} = req.body
+
+        const isreset = await resetPassword.findById(id);
+
+        if(!isreset)
+            return res.status(404).json({success: false, message: 'not Valid pls try again', type:'student'});
+
+        const teacher = await Teacher.findOne({email: isreset.email});
+        password = await bcrypt.hashSync(password , 10);
+        teacher.password = password;
+        await teacher.save();
+
+        await resetPassword.findByIdAndRemove(id);
+
+        return res.status(200).json({success: true})
+
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error', messages: error.message})
     }

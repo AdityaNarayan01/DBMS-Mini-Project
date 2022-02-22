@@ -3,7 +3,9 @@ const bcrypt = require('bcrypt');
 const { sendemail } = require('../utils/sendlink');
 const Test = require('../models/test');
 const testsubmitted = require('../models/testsubmitted');
+const resetpassword = require('../models/resetpassword');
 require('dotenv').config();
+
 
 
 exports.register = async(req, res) => {
@@ -34,8 +36,10 @@ exports.register = async(req, res) => {
 
 
         const link = `${process.env.frontendLink}/studentVerify/${student.id}`
-        await sendemail(email, link);
+        const mail = await sendemail(email, link);
 
+        console.log(mail);
+        
         res.status(200).json({success: true});
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error', messages: error.message});
@@ -75,6 +79,63 @@ exports.login = async(req, res) => {
             return res.status(200).send({ success: false, message: 'Invalid Password' });
 
         res.status(200).json({success: true, student, token:student.generateJWT()});
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message})
+    }
+}
+
+
+exports.forgot = async(req, res) => {
+    try {
+        const {email} =  req.body;
+        const student = await Student.findOne({ email });
+
+        if (!student)
+            return res.status(200).send({ success: false, message: 'Student Not Found'});
+        
+        const isreset = await resetpassword.findOne({email});
+
+        if(!isreset){
+            const newReset = new resetpassword({email, type: 'student'});
+
+            const reset = await newReset.save();
+
+            const link = `${process.env.frontendLink}/studentReset/${reset.id}`
+            await sendemail(email, link);
+        }else{
+            const link = `${process.env.frontendLink}/studentReset/${isreset.id}`
+            await sendemail(email, link);
+        }
+
+        
+
+        return res.status(200).json({success: true});
+        
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message})
+    }
+}
+
+
+exports.reset = async(req, res) => {
+    try {
+        const id = req.params.id;
+        var {password} = req.body
+
+        const isreset = await resetpassword.findById(id);
+
+        if(!isreset)
+            return res.status(404).json({success: false, message: 'not Valid pls try again', type:'student'});
+
+        const student = await Student.findOne({email: isreset.email});
+        password = await bcrypt.hashSync(password , 10);
+        student.password = password;
+        await student.save();
+
+        await resetpassword.findByIdAndRemove(id);
+
+        return res.status(200).json({success: true})
+
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error', messages: error.message})
     }
