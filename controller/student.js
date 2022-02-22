@@ -38,7 +38,7 @@ exports.register = async(req, res) => {
         let to = email;
         let from = process.env.EMAIL;
         let text = ` go to link :- ${process.env.frontendLink}/studentVerify/${student.id}`;
-        await sendEmail({ subject, text, to , from});
+        sendEmail({ subject, text, to , from});
         
         res.status(200).json({success: true});
     } catch (error) {
@@ -104,14 +104,14 @@ exports.forgot = async(req, res) => {
             let to = email;
             let from = process.env.EMAIL;
             let text = ` go to link :- $${process.env.frontendLink}/studentReset/${reset.id}`;
-            await sendEmail({ subject, text, to , from});
+            sendEmail({ subject, text, to , from});
 
         }else{
-            let subject = "Account Verification token";
+            let subject = "Reset Password token";
             let to = email;
             let from = process.env.EMAIL;
             let text = ` go to link :- $${process.env.frontendLink}/studentReset/${isreset.id}`;
-            await sendEmail({ subject, text, to , from});
+            sendEmail({ subject, text, to , from});
         }
 
         
