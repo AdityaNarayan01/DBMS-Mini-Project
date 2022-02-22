@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { sendemail } = require('../utils/sendlink');
 const Test = require('../models/test');
 const testsubmitted = require('../models/testsubmitted');
-const resetPassword = require('../models/resetpassword');
+const resetPassword = require('../models/resetPassword');
 require('dotenv').config();
 
 
