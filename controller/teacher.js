@@ -1,6 +1,6 @@
 const Teacher = require('../models/teacher');
 const bcrypt = require('bcrypt');
-const { sendemail } = require('../utils/sendlink');
+const { sendEmail } = require('../utils/sendlink');
 const Test = require('../models/test');
 const testsubmitted = require('../models/testsubmitted');
 const resetPassword = require('../models/resetPassword');
@@ -33,8 +33,12 @@ exports.register = async(req, res) => {
             teacher = await newTeacher.save();
         }
 
-        const link = `${process.env.frontendLink}/teacherVerify/${teacher.id}`
-        await sendemail(email, link);
+        let subject = "Account Verification token";
+        let to = email;
+        let from = process.env.EMAIL;
+        let text = ` go to link :- ${process.env.frontendLink}/teacherVerify/${teacher.id}`;
+        await sendEmail({ subject, text, to , from});
+
 
         res.status(200).json({success: true});
     } catch (error) {
@@ -96,11 +100,19 @@ exports.forgot = async(req, res) => {
         if(!isreset){
             const newReset = new resetPassword({email, type: 'student'});
             const reset = await newReset.save();
-            const link = `${process.env.frontendLink}/teacherReset/${reset.id}`
-            await sendemail(email, link);
+            
+            let subject = "Reset password token";
+            let to = email;
+            let from = process.env.EMAIL;
+            let text = ` go to link :- ${process.env.frontendLink}/teacherReset/${reset.id}`;
+            await sendEmail({ subject, text, to , from});
+
         }else{
-            const link = `${process.env.frontendLink}/teacherReset/${isreset.id}`
-            await sendemail(email, link);
+            let subject = "Reset password token";
+            let to = email;
+            let from = process.env.EMAIL;
+            let text = ` go to link :- ${process.env.frontendLink}/teacherReset/${reset.id}`;
+            await sendEmail({ subject, text, to , from});
         }
 
         return res.status(200).json({success: true});

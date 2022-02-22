@@ -1,6 +1,6 @@
 const Student = require('../models/student');
 const bcrypt = require('bcrypt');
-const { sendemail } = require('../utils/sendlink');
+const { sendEmail } = require('../utils/sendlink');
 const Test = require('../models/test');
 const testsubmitted = require('../models/testsubmitted');
 const resetpassword = require('../models/resetPassword');
@@ -34,11 +34,11 @@ exports.register = async(req, res) => {
             student = await newStudent.save();
         }
 
-
-        const link = `${process.env.frontendLink}/studentVerify/${student.id}`
-        const mail = await sendemail(email, link);
-
-        console.log(mail);
+        let subject = "Account Verification token";
+        let to = email;
+        let from = process.env.EMAIL;
+        let text = ` go to link :- ${process.env.frontendLink}/studentVerify/${student.id}`;
+        await sendEmail({ subject, text, to , from});
         
         res.status(200).json({success: true});
     } catch (error) {
@@ -100,11 +100,18 @@ exports.forgot = async(req, res) => {
 
             const reset = await newReset.save();
 
-            const link = `${process.env.frontendLink}/studentReset/${reset.id}`
-            await sendemail(email, link);
+            let subject = "Reset Password token";
+            let to = email;
+            let from = process.env.EMAIL;
+            let text = ` go to link :- $${process.env.frontendLink}/studentReset/${reset.id}`;
+            await sendEmail({ subject, text, to , from});
+
         }else{
-            const link = `${process.env.frontendLink}/studentReset/${isreset.id}`
-            await sendemail(email, link);
+            let subject = "Account Verification token";
+            let to = email;
+            let from = process.env.EMAIL;
+            let text = ` go to link :- $${process.env.frontendLink}/studentReset/${reset.id}`;
+            await sendEmail({ subject, text, to , from});
         }
 
         
