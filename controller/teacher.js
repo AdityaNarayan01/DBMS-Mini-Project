@@ -111,7 +111,7 @@ exports.forgot = async(req, res) => {
             let subject = "Reset password token";
             let to = email;
             let from = process.env.EMAIL;
-            let text = ` go to link :- ${process.env.frontendLink}/teacherReset/${reset.id}`;
+            let text = ` go to link :- ${process.env.frontendLink}/teacherReset/${isreset.id}`;
             await sendEmail({ subject, text, to , from});
         }
 

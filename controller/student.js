@@ -110,7 +110,7 @@ exports.forgot = async(req, res) => {
             let subject = "Account Verification token";
             let to = email;
             let from = process.env.EMAIL;
-            let text = ` go to link :- $${process.env.frontendLink}/studentReset/${reset.id}`;
+            let text = ` go to link :- $${process.env.frontendLink}/studentReset/${isreset.id}`;
             await sendEmail({ subject, text, to , from});
         }
 
