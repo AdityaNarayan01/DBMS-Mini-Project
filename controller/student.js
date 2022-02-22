@@ -13,7 +13,7 @@ exports.register = async(req, res) => {
         var {firstName, lastName , email, password, branch, section} =  req.body;
         const ifStudent = await Student.findOne({email});
 
-        if(ifStudent && ifStudent.isverified==true)
+        if(ifStudent && ifStudent.isVerified==true)
                 return res.status(200).json({success: false, message: 'Student Already Exists'});
 
         password = await bcrypt.hashSync(password , 10);
