@@ -37,4 +37,6 @@ router.get('/teacherProfile', authenticate, teacher.profile);
 
 router.get('/teacherTestDetails', authenticate, teacher.testDetails);
 
+router.get('/teacherSpecificTest/:id', authenticate, teacher.specificTest)
+
 module.exports = router;
