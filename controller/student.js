@@ -175,9 +175,13 @@ exports.studentTestDetails  = async(req, res) => {
             var tomorrow = new Date(date.getTime() + (24 * 60 * 60 * 1000));
             var tomorrowTimeStamp = tomorrow.getTime()/1000;
 
+
             const ongoingTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').lt(nowTimeStamp).where('endTime').gt(nowTimeStamp).exec();
+
             const todayTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').gt(nowTimeStamp).lt(tomorrowTimeStamp).exec();
+
             const upcomingTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').gt(tomorrowTimeStamp).exec();
+            
             const historyTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('endTime').lt(nowTimeStamp).exec();
             const testGiven = await testsubmitted.find({studentId: student.id});
 
