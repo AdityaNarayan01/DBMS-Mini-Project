@@ -9,11 +9,11 @@ const authenticate = require('../middlewares/authenticate');
 
 //Student test
 router.post('/studentTestSubmit', authenticate, [
-    check('testSubmit.testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
-    check('testSubmit.submitTime').not().isEmpty().withMessage({success: false, message: 'submitTime is Required'}),
-    check('testSubmit.endTime').not().isEmpty().withMessage({success: false, message: 'endTime is Required'}),
-    check('testSubmit.totalMarks').not().isEmpty().withMessage({success: false, message: 'totalMarks is Required'}),
-    check('testSubmit.answer').not().isEmpty().withMessage({success: false, message: 'answer is Required'}),
+    check('testId').not().isEmpty().withMessage({success: false, message: 'testId is Required'}),
+    check('submitTime').not().isEmpty().withMessage({success: false, message: 'submitTime is Required'}),
+    check('endTime').not().isEmpty().withMessage({success: false, message: 'endTime is Required'}),
+    check('totalMarks').not().isEmpty().withMessage({success: false, message: 'totalMarks is Required'}),
+    check('answer').not().isEmpty().withMessage({success: false, message: 'answer is Required'}),
 ], validate, test.studentTestSubmit);
 
 // router.post('/submittest', authenticate, [
