@@ -40,4 +40,6 @@ router.get('/studentTestDetails', authenticate, student.studentTestDetails);
 
 router.get('/studentResult/:id', authenticate, student.studentResult);
 
+router.get('/specificTest/:id', authenticate, student.specificTest);
+
 module.exports = router;

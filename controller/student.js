@@ -208,3 +208,24 @@ exports.studentResult = async(req,res) => {
         res.status(500).json({success: false, message: 'Server Error', messages: error.message});
     }
 }
+
+
+exports.specificTest = async(req, res) => {
+    try {
+        const student = req.student;
+
+        if(!student)
+            return res.status(401).json({success: false, message:'UnAuthozied Accesss'});
+    
+        const testId = req.params.id;
+    
+        const test = await Test.findById(testId);
+    
+        if(!test)
+            return res.status(400).json({success: false, message:'Test Not Found'});
+    
+        res.status(200).json({success: true, test});
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error', messages: error.message});
+    }
+}
