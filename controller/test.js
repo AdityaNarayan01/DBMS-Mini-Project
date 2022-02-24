@@ -75,7 +75,7 @@ exports.studentTestSubmit  = async(req,res) => {
         if(!student)
             return res.status(401).json({success: false, message:'UnAuthozied Accesss'});
 
-        const {testId, submitTime, endTime, totalMarks, answer} = req.body.testSubmit;
+        const {testId, submitTime, endTime, totalMarks, answer} = req.body;
 
         const test = await Test.findById(testId);
 
