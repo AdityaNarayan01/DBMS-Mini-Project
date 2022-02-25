@@ -4,6 +4,7 @@ const { sendEmail } = require('../utils/sendlink');
 const Test = require('../models/test');
 const testsubmitted = require('../models/testsubmitted');
 const resetpassword = require('../models/resetPassword');
+var moment = require('moment'); 
 require('dotenv').config();
 
 
@@ -164,25 +165,24 @@ exports.studentTestDetails  = async(req, res) => {
 
         if(!student)
             return res.status(401).json({success: false, message:'UnAuthozied Accesss'});
-
+            
             var date = new Date();
             var nowTimeStamp = date.getTime()/1000;
-
             date.setHours(0,0,0,0);
-
             var todayTimeStamp = date.getTime()/1000;
 
             var tomorrow = new Date(date.getTime() + (24 * 60 * 60 * 1000));
             var tomorrowTimeStamp = tomorrow.getTime()/1000;
 
+            const sections = ["null", student.section];
 
-            const ongoingTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').lt(nowTimeStamp).where('endTime').gt(nowTimeStamp).exec();
+            const ongoingTest = await Test.find({branch: student.branch}).where('section').in(sections).where('startTime').lt(nowTimeStamp).where('endTime').gt(nowTimeStamp).exec();
 
-            const todayTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').gt(nowTimeStamp).lt(tomorrowTimeStamp).exec();
+            const todayTest = await Test.find({branch: student.branch}).where('section').in(sections).where('startTime').gt(nowTimeStamp).lt(tomorrowTimeStamp).exec();
 
-            const upcomingTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('startTime').gt(tomorrowTimeStamp).exec();
+            const upcomingTest = await Test.find({branch: student.branch}).where('section').in(sections).where('startTime').gt(tomorrowTimeStamp).exec();
             
-            const historyTest = await Test.find({branch: student.branch}).where('section').eq("null" || student.section).where('endTime').lt(nowTimeStamp).exec();
+            const historyTest = await Test.find({branch: student.branch}).where('section').in(sections).where('endTime').lt(nowTimeStamp).exec();
             const testGiven = await testsubmitted.find({studentId: student.id});
 
             res.status(200).json({success: true, ongoingTest, todayTest, upcomingTest, historyTest, testGiven });
