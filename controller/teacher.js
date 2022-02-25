@@ -195,7 +195,7 @@ exports.teacherSpecificTest = async(req,res) => {
 
         const testId = req.params.id;
 
-        const test = await teacher.findById(testId);
+        const test = await Test.findById(testId);
 
         if(!test)
             return res.status(400).json({success: false, message: 'Test Not Found'});
@@ -206,6 +206,26 @@ exports.teacherSpecificTest = async(req,res) => {
         const result = await testsubmitted.find({testId});
         res.status(200).json({success: true, result, test});
 
+    } catch (error) {
+        res.status(500).json({success: false, message: 'Server Error'})
+    }
+}
+
+exports.studentSpecificResult = async(req,res) => {
+    try {
+        const teacher = req.teacher;
+
+        if(!teacher)
+            return res.status(401).json({success: false, message:'UnAuthozied Accesss'});
+
+        const testId = req.params.id;
+
+        const result = await testsubmitted.findById(testId).populate('testId');
+
+        if(!result)
+            return res.status(400).json({success: false, message: 'Test Not Found'});
+        
+        res.status(200).json({success: true, result})
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error'})
     }

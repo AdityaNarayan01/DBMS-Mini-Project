@@ -39,4 +39,7 @@ router.get('/teacherTestDetails', authenticate, teacher.testDetails);
 
 router.get('/teacherSpecificTest/:id', authenticate, teacher.teacherSpecificTest)
 
+router.get('/studentSpecificResult/:id', authenticate, teacher.studentSpecificResult)
+
+
 module.exports = router;
