@@ -105,7 +105,7 @@ exports.studentTestSubmit  = async(req,res) => {
         }
 
 
-        const newTestSubmit = new TestSubmit({testId, studentId: student.id, marks, submitTime, endTime, totalMarks, answer});
+        const newTestSubmit = new TestSubmit({testId, studentId: student, marks, submitTime, endTime, totalMarks, answer});
 
         const testSubmit = await newTestSubmit.save();
 
