@@ -200,8 +200,8 @@ exports.teacherSpecificTest = async(req,res) => {
         if(!test)
             return res.status(400).json({success: false, message: 'Test Not Found'});
         
-        if(test.teacherId.toString() === teacher.id) 
-            return res.status(400).json({success: false, message: 'UnAuthozied Access'});
+//         if(test.teacherId.toString() === teacher.id) 
+//             return res.status(400).json({success: false, message: 'UnAuthozied Access'});
 
         const result = await testsubmitted.find({testId});
         res.status(200).json({success: true, result, test});
