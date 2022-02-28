@@ -8,7 +8,7 @@ const testSubmittedSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'test'
     },
-    StudentId:{
+    studentId:{
         type: Schema.Types.ObjectId,
         ref: 'student'
     },
