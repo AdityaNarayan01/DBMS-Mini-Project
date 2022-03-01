@@ -36,7 +36,7 @@ const sendEmail = async (emailOptions) => {
         let emailTransporter = await createTransporter();
         await emailTransporter.sendMail(emailOptions); 
     } catch (error) {
-        consoe.log(error);
+        console.log(error);
     }
 };
 
