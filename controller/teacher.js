@@ -204,7 +204,7 @@ exports.teacherSpecificTest = async(req,res) => {
 //             return res.status(400).json({success: false, message: 'UnAuthozied Access'});
 
         const result = await testsubmitted.find({testId}).populate("studentId").exec;
-        res.status(200).json({success: true, result, test});
+        res.status(200).json({success: true, result, test,message:"check"});
 
     } catch (error) {
         res.status(500).json({success: false, message: 'Server Error'})
