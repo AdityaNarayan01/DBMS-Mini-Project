@@ -32,8 +32,12 @@ return transporter;
 };
 
 const sendEmail = async (emailOptions) => {
-    let emailTransporter = await createTransporter();
-    await emailTransporter.sendMail(emailOptions);
+    try {
+        let emailTransporter = await createTransporter();
+        await emailTransporter.sendMail(emailOptions); 
+    } catch (error) {
+        consoe.log(error);
+    }
 };
 
 module.exports = {
