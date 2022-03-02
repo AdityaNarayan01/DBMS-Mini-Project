@@ -222,6 +222,11 @@ exports.specificTest = async(req, res) => {
             return res.status(401).json({success: false, message:'UnAuthozied Accesss'});
     
         const testId = req.params.id;
+        
+        const testsubmit = await testsubmitted.findOne({testId, studentId: student.id});
+        
+        if(testsubmit)
+            return res.status(200).json({sucess: false, message: 'Test Already Given'});
     
         const test = await Test.findById(testId);
     
